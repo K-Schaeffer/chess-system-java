@@ -51,16 +51,19 @@ public class UI {
 			throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8");
 		}
 	}
-	
+
 	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
 		printBoard(chessMatch.getPieces());
 		System.out.println();
 		printCapturedPieces(captured);
 		System.out.println();
-		System.out.println("Turn : "+chessMatch.getTurn());
-		System.out.println("Waiting player: "+chessMatch.getCurrentPlayer());
+		System.out.println("Turn : " + chessMatch.getTurn());
+		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+		if (chessMatch.getCheck()) { // If the chessMatch get a check...
+			System.out.println("CHECK!");
+		}
 	}
-	
+
 	public static void printBoard(ChessPiece[][] pieces) {
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");
@@ -82,7 +85,7 @@ public class UI {
 		}
 		System.out.println("  a b c d e f g h");
 	}
-	
+
 	private static void printPiece(ChessPiece piece, boolean background) {
 		if (background) {
 			System.out.print(ANSI_BLUE_BACKGROUND);
@@ -98,21 +101,22 @@ public class UI {
 		}
 		System.out.print(" ");
 	}
-	
+
 	private static void printCapturedPieces(List<ChessPiece> captured) {
 		// Both lists to filter captured pieces, using lambda expression
-		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList()); 
-		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList()); 
+		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE)
+				.collect(Collectors.toList());
+		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK)
+				.collect(Collectors.toList());
 		System.out.println("Captured Pieces:");
 		System.out.print("White: ");
-		System.out.print(ANSI_WHITE); //That will make the following list be printed white-colored
-		System.out.println(Arrays.toString(white.toArray())); //An easy way to print an Array of values in Java
+		System.out.print(ANSI_WHITE); // That will make the following list be printed white-colored
+		System.out.println(Arrays.toString(white.toArray())); // An easy way to print an Array of values in Java
 		System.out.print(ANSI_RESET);
 		System.out.print("Black: ");
-		System.out.print(ANSI_YELLOW); 
-		System.out.println(Arrays.toString(black.toArray())); 
-		System.out.print(ANSI_RESET); //Reset the color
+		System.out.print(ANSI_YELLOW);
+		System.out.println(Arrays.toString(black.toArray()));
+		System.out.print(ANSI_RESET); // Reset the color
 	}
-	
 
 }
