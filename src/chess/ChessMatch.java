@@ -136,6 +136,21 @@ public class ChessMatch {
 			rook.increaseMoveCount();
 		}
 
+		// #specialmove en passant
+		if(p instanceof Pawn) {
+			if (source.getColumn() != target.getColumn() && capturedPiece == null) { // If the Pawn walked through diagonal without capturing...
+				Position pawnPosition;
+				if(p.getColor() == Color.WHITE) { // Condition to know the positions of the captured pawns
+					pawnPosition = new Position(target.getRow() + 1, target.getColumn()); // The white en passant will capture the piece below
+				}else {
+					pawnPosition = new Position(target.getRow() - 1, target.getColumn()); // The black en passant will capture the piece above
+				}
+				capturedPiece = board.removePiece(pawnPosition); //Removing manually the pawn
+				capturedPieces.add(capturedPiece); // Adding manually the captured pawn in the list
+				piecesOnTheBoard.remove(capturedPiece);  // Removing it from piecesOnTheBoard
+			}
+		}
+		
 		return capturedPiece;
 	}
 
@@ -170,6 +185,21 @@ public class ChessMatch {
 			ChessPiece rook = (ChessPiece) board.removePiece(targetT);
 			board.placePiece(rook, sourceT);
 			rook.decreaseMoveCount();
+		}
+		
+		// #specialmove en passant
+		if (p instanceof Pawn) { // Condition to undo the en passant
+			if (source.getColumn() != target.getColumn() && capturedPiece == enPassantVulnerable) {
+				ChessPiece pawn = (ChessPiece)board.removePiece(target); // Removing
+				Position pawnPosition;
+				if (p.getColor() == Color.WHITE) { // Testing the right position to place the captured pawn
+					pawnPosition = new Position(3, target.getColumn()); 
+																							
+				} else {
+					pawnPosition = new Position(4, target.getColumn()); 
+				}
+				board.placePiece(pawn, pawnPosition); 
+			}
 		}
 		
 	}
