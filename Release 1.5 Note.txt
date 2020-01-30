@@ -1,0 +1,6 @@
+Some problems were found in this release, they`ll be corrected in the next one
+============================================================================
+
+The ones I found:
+- Exception (STOPING THE PROGRAM) when the user types a incorrect type of piece to promote (InvalidParameterException);
+- Exception (STOPING THE PROGRAM) when the user types the correct letter of the piece, but in lower case, the same exceptions throws;
